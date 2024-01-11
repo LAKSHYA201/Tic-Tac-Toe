@@ -1,15 +1,25 @@
+let gameOver=false;
 const gameBoard = (()=>{
-    const boxes=["","","","","","","","",""];
+    let boxes=["","","","","","","","",""];
     
-    
+     
+
     const check=()=>{
         if((boxes[0]==boxes[1]) && (boxes[1]==boxes[2]) && (boxes[0]=="x")|| (boxes[3]==boxes[4]) && (boxes[4]==boxes[5]) && (boxes[3]=="x") || (boxes[6]==boxes[7]) && (boxes[7]==boxes[8]) && (boxes[6]=="x") || (boxes[0]==boxes[3]) && (boxes[3]==boxes[6]) && (boxes[0]=="x") || (boxes[1]==boxes[4]) && (boxes[4]==boxes[7]) && (boxes[1]=="x") || (boxes[2]==boxes[5]) && (boxes[5]==boxes[8]) && (boxes[2]=="x") || (boxes[0]==boxes[4]) && (boxes[4]==boxes[8]) && (boxes[0]=="x") || (boxes[2]==boxes[4]) && (boxes[4]==boxes[6]) && (boxes[2]=="x"))
-        {console.log("x wins");}
+        {console.log("x wins");
+         result(1);
+         gameOver=true;
+         return true;
+               }
         else if((boxes[0]==boxes[1]) && (boxes[1]==boxes[2]) && (boxes[0]=="o")|| (boxes[3]==boxes[4]) && (boxes[4]==boxes[5]) && (boxes[3]=="o") || (boxes[6]==boxes[7]) && (boxes[7]==boxes[8]) && (boxes[6]=="o") || (boxes[0]==boxes[3]) && (boxes[3]==boxes[6]) && (boxes[0]=="o") || (boxes[1]==boxes[4]) && (boxes[4]==boxes[7]) && (boxes[1]=="o") || (boxes[2]==boxes[5]) && (boxes[5]==boxes[8]) && (boxes[2]=="o") || (boxes[0]==boxes[4]) && (boxes[4]==boxes[8]) && (boxes[0]=="o") || (boxes[2]==boxes[4]) && (boxes[4]==boxes[6]) && (boxes[2]=="o"))
-        {console.log("o wins");}
-        else return;
+        {console.log("o wins");
+         result(2);
+         gameOver=true;
+         return true;
+               }
+        else {return false;}
     }
-    return {boxes:boxes,check:check};
+    return {boxes,check};
 })();
 
 const display=(()=>{
@@ -24,16 +34,24 @@ const display=(()=>{
     const box8=document.querySelector(".box8");
     const box9=document.querySelector(".box9");
 
-    let marker="x"
+    let marker="x";
 
      const isEmpty = (e,index)=>() => {
-        if (e.textContent== "" && marker=="x") {
+        
+        
+        if(gameOver){
+            
+            return;
+        }
+        else if (e.textContent== "" && marker=="x") {
             e.textContent = "x";
             e.classList.add("fade-in");
             gameBoard.boxes[index]="x";
             marker="o";
             player1Banner.player1.textContent="";
             player2Banner.player2BannerDisplay();
+            
+
 
         }
         else if(e.textContent=="" && marker=="o"){
@@ -43,12 +61,13 @@ const display=(()=>{
             marker="x";
             player2Banner.player2.textContent="";
             player1Banner.player1BannerDisplay();
+            
         }
-            gameBoard.check();
-
+            
+        gameBoard.check();
      }
 
-    return {box1,box2,box3,box4,box5,box6,box7,box8,box9,isEmpty}; 
+    return {box1,box2,box3,box4,box5,box6,box7,box8,box9,isEmpty,marker}; 
 
 })();
 
@@ -77,3 +96,31 @@ const player1Banner=(()=>{
     return{player1,player1BannerDisplay};
 })();
 
+const result=(num)=>{
+    
+    const resultBanner=document.querySelector(".result");
+    resultBanner.textContent=`Player ${num} has won !`;
+    return true ;
+    
+
+}
+
+const restart=()=>{
+    gameBoard.boxes=["","","","","","","","",""];
+    display.box1.textContent="";
+    display.box2.textContent="";
+    display.box3.textContent="";
+    display.box4.textContent="";
+    display.box5.textContent="";
+    display.box6.textContent="";
+    display.box7.textContent="";
+    display.box8.textContent="";
+    display.box9.textContent="";
+    gameOver=false;
+    console.log(gameOver);
+    
+    
+}
+
+const restartBtn=document.querySelector(".restart");
+restartBtn.addEventListener("click",restart);

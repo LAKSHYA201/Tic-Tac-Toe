@@ -145,3 +145,30 @@ padding-top: 70px;
     from { opacity: 0; }
     to { opacity: 1; }
   }
+  .resultHolder{
+    grid-column: 2/3;
+    grid-row: 3/4;
+    color: #72A0C1;
+    font-size: x-large;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  .result{
+    grid-row: 1/2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .restart{
+    grid-row: 2/3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #72A0C1;
+    color: white;
+    
+    
+  }
